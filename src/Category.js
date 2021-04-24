@@ -29,7 +29,17 @@ export class Category extends Component {
     componentDidUpdate(){
         this.refreshList();
     }
-
+    deleteCat(catid)
+    {
+        if(window.confirm('Are you sure?')){
+            fetch(process.env.REACT_APP_API+'category/'+catid,{
+                method:'Delete',
+                headers:{'Accept':'application/json',
+            'Content-Type':'application/json'}
+            }
+            )
+        }
+    }
     render(){
         const {cats, catid, catname, active, catdesc} = this.state;
         let addModalClose=()=>this.setState({addModalShow:false});
@@ -70,7 +80,11 @@ export class Category extends Component {
                                         <Button className="mr-2" variant="info"
                                         onClick={()=>this.setState({editModalShow:true, catid:cat.CategoryId, catname:cat.CategoryName,
                                         active:cat.Active, catdesc: cat.CategoryDescription})}>
-                                            Edit Category
+                                            Edit
+                                        </Button>
+                                        <Button className="mr-2" variant="danger"
+                                        onClick={()=>this.deleteCat(cat.CategoryId)}>
+                                            Delete
                                         </Button>
                                         <EditCatModal show={this.state.editModalShow}
                                         onHide={editModalClose}
