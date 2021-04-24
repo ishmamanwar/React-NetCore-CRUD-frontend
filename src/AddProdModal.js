@@ -4,9 +4,16 @@ import {Modal,Button, Row, Col, Form} from 'react-bootstrap';
 export class AddProdModal extends Component{
     constructor(props){
         super(props);
+        this.state={cats:[]};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
+    componentDidMount(){
+        fetch(process.env.REACT_APP_API+'category')
+        .then(response=>response.json())
+        .then(data=>{
+            this.setState({cats:data});
+        });
+    }
     handleSubmit(event){
         event.preventDefault();
         fetch(process.env.REACT_APP_API+'product', {
@@ -56,8 +63,12 @@ export class AddProdModal extends Component{
                                     </Form.Group>
                                     <Form.Group controlId="Category">
                                         <Form.Label>Category</Form.Label>
-                                        <Form.Control type="text" name="Category" required
-                                        placeholder="Category" />
+                                        <Form.Control>
+                                            <Form.Control as="select">
+                                                {this.state.cats.map(cat=>
+                                                    <option key={cat.CategoryId}>{cat.CategoryName}</option>)}
+                                            </Form.Control>
+                                        </Form.Control>
                                     </Form.Group>
                                     <Form.Group controlId="ProductDescription">
                                         <Form.Label>ProductDescription</Form.Label>

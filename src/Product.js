@@ -14,16 +14,50 @@ export class Product extends Component {
     }
 
     refreshList(){
+        //fetch(process.env.REACT_APP_API+'product/Search/s')
         fetch(process.env.REACT_APP_API+'product')
-        
         .then(response=>response.json())
         .then(data=>{
             this.setState({prods:data});
         });
     }
+    handleSearch(event)
+    {
+        //this.refreshList();
+        //event.preventDefault();
+        //fetch(process.env.REACT_APP_API+'product/Search/ac')
+        //.then(response=>response.json())
+        //.then(data=>{
+           // this.setState({prods:data.list});
+      //  });
 
+
+        event.preventDefault();
+        //saving the value of the textbox to a variable/const
+        if(this.searchbox.value !== ""){ 
+            const searchResult = this.searchbox.value;
+            //update the state object
+            this.setState({
+                location: searchResult + " weather report"
+            });
+        }else{
+            alert("please ensure that field is not empty!");
+            return;
+        }
+    }
     componentDidMount(){
-        this.refreshList();
+        if(this.searchbox.value == "")
+        {
+            this.refreshList();
+        }
+        else if(this.searchbox.value !== "")
+        {
+            fetch(process.env.REACT_APP_API+'product/Search/ac')
+        .then(response=>response.json())
+        .then(data=>{
+            this.setState({prods:data.list});
+        });
+        }
     }
 
     componentDidUpdate(){
@@ -46,6 +80,14 @@ export class Product extends Component {
         let editModalClose=()=>this.setState({editModalShow:false})
         return(
             <div>
+                      <input
+                      className="mt-4"
+                      name="SearchText"
+                      ref={input => this.searchbox = input}
+        type="text"
+        placeholder="Product Name"
+      />
+                <button type="submit" onClick={this.handleSearch}>Search</button>
                 <Table className="mt-4" striped bordered hover size="sm">
                     <thead>
                         <tr>

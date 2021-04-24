@@ -9,17 +9,18 @@ export class EditProdModal extends Component{
 
     handleSubmit(event){
         event.preventDefault();
-        fetch(process.env.REACT_APP_API+'category', {
+        fetch(process.env.REACT_APP_API+'product', {
             method:'PUT',
             headers:{
                 'Accept':'application/json',
                 'Content-Type':'application/json'
             },
             body: JSON.stringify({
-                CategoryId: event.target.CategoryId.value,
-                CategoryName: event.target.CategoryName.value,
-                Active: event.target.Active.value,
-                CategoryDescription: event.target.CategoryDescription.value
+                ProductId: event.target.ProductId.value,
+                ProductName: event.target.ProductName.value,
+                Category: event.target.Category.value,
+                ProductDescription: event.target.ProductDescription.value,
+                Active: event.target.Active.value
             })
         })
         .then(res => res.json())
@@ -42,25 +43,37 @@ export class EditProdModal extends Component{
                 >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            Edit Category
+                            Edit Product
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
                             <Col sm={6}>
                                 <Form onSubmit={this.handleSubmit}>
-                                <Form.Group controlId="CategoryId">
-                                        <Form.Label>CategoryId</Form.Label>
-                                        <Form.Control type="text" name="CategoryId" required
+                                <Form.Group controlId="ProductId">
+                                        <Form.Label>ProductId</Form.Label>
+                                        <Form.Control type="text" name="ProductId" required
                                         disabled
-                                        defaultValue={this.props.catid}
-                                        placeholder="CategoryId" />
+                                        defaultValue={this.props.prodid}
+                                        placeholder="ProductId" />
                                     </Form.Group>
-                                    <Form.Group controlId="CategoryName">
-                                        <Form.Label>CategoryName</Form.Label>
-                                        <Form.Control type="text" name="CategoryName" required
-                                        defaultValue={this.props.catname}
-                                        placeholder="CategoryName" />
+                                    <Form.Group controlId="ProductName">
+                                        <Form.Label>ProductName</Form.Label>
+                                        <Form.Control type="text" name="ProductName" required
+                                        defaultValue={this.props.prodname}
+                                        placeholder="ProductName" />
+                                    </Form.Group>
+                                    <Form.Group controlId="Category">
+                                        <Form.Label>Category</Form.Label>
+                                        <Form.Control type="text" name="Category" required
+                                        defaultValue={this.props.category}
+                                        placeholder="Category" />
+                                    </Form.Group>
+                                    <Form.Group controlId="ProductDescription">
+                                        <Form.Label>ProductDescription</Form.Label>
+                                        <Form.Control type="text" name="ProductDescription" required
+                                        defaultValue={this.props.proddesc}
+                                        placeholder="ProductDescription" />
                                     </Form.Group>
                                     <Form.Group controlId="Active">
                                         <Form.Label>Active</Form.Label>
@@ -71,15 +84,9 @@ export class EditProdModal extends Component{
                                             <option value="0">Inactive</option>
                                         </Form.Control>
                                     </Form.Group>
-                                    <Form.Group controlId="CategoryDescription">
-                                        <Form.Label>CategoryDescription</Form.Label>
-                                        <Form.Control type="text" name="CategoryDescription" required
-                                        defaultValue={this.props.catdesc}
-                                        placeholder="CategoryDescription" />
-                                    </Form.Group>
                                     <Form.Group>
                                         <Button variant="primary" type="submit">
-                                            Update Category
+                                            Update Product
                                         </Button>
                                     </Form.Group>
                                 </Form>
