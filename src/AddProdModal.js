@@ -9,16 +9,17 @@ export class AddProdModal extends Component{
 
     handleSubmit(event){
         event.preventDefault();
-        fetch(process.env.REACT_APP_API+'category', {
+        fetch(process.env.REACT_APP_API+'product', {
             method:'POST',
             headers:{
                 'Accept':'application/json',
                 'Content-Type':'application/json'
             },
             body: JSON.stringify({
-                CategoryName: event.target.CategoryName.value,
-                Active: event.target.Active.value,
-                CategoryDescription: event.target.CategoryDescription.value
+                ProductName: event.target.ProductName.value,
+                Category: event.target.Category.value,
+                ProductDescription: event.target.ProductDescription.value,
+                Active: event.target.Active.value
             })
         })
         .then(res => res.json())
@@ -41,17 +42,27 @@ export class AddProdModal extends Component{
                 >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            Add Category
+                            Add Product
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
                             <Col sm={6}>
                                 <Form onSubmit={this.handleSubmit}>
-                                    <Form.Group controlId="CategoryName">
-                                        <Form.Label>CategoryName</Form.Label>
-                                        <Form.Control type="text" name="CategoryName" required
-                                        placeholder="CategoryName" />
+                                    <Form.Group controlId="ProductName">
+                                        <Form.Label>ProductName</Form.Label>
+                                        <Form.Control type="text" name="ProductName" required
+                                        placeholder="ProductName" />
+                                    </Form.Group>
+                                    <Form.Group controlId="Category">
+                                        <Form.Label>Category</Form.Label>
+                                        <Form.Control type="text" name="Category" required
+                                        placeholder="Category" />
+                                    </Form.Group>
+                                    <Form.Group controlId="ProductDescription">
+                                        <Form.Label>ProductDescription</Form.Label>
+                                        <Form.Control type="text" name="ProductDescription" required
+                                        placeholder="ProductDescription" />
                                     </Form.Group>
                                     <Form.Group controlId="Active">
                                         <Form.Label>Active</Form.Label>
@@ -62,14 +73,9 @@ export class AddProdModal extends Component{
                                             <option value="0">Inactive</option>
                                         </Form.Control>
                                     </Form.Group>
-                                    <Form.Group controlId="CategoryDescription">
-                                        <Form.Label>CategoryDescription</Form.Label>
-                                        <Form.Control type="text" name="CategoryDescription" required
-                                        placeholder="CategoryDescription" />
-                                    </Form.Group>
                                     <Form.Group>
                                         <Button variant="primary" type="submit">
-                                            Add Category
+                                            Add Product
                                         </Button>
                                     </Form.Group>
                                 </Form>
