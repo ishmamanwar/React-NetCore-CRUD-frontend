@@ -3,13 +3,14 @@ import {Table} from 'react-bootstrap';
 
 import {Button, ButtonToolbar} from 'react-bootstrap';
 import {AddCatModal} from './AddCatModal';
+import {EditCatModal} from './EditCatModal';
 
 export class Category extends Component {
 
 
     constructor(props){
         super(props);
-        this.state={cats:[], addModalShow:false}
+        this.state={cats:[], addModalShow:false, editModalShow: false}
     }
 
     refreshList(){
@@ -30,8 +31,9 @@ export class Category extends Component {
     }
 
     render(){
-        const {cats} = this.state;
+        const {cats, catid, catname, active, catdesc} = this.state;
         let addModalClose=()=>this.setState({addModalShow:false});
+        let editModalClose=()=>this.setState({editModalShow:false})
         return(
             <div>
                 <Table className="mt-4" striped bordered hover size="sm">
@@ -63,7 +65,23 @@ export class Category extends Component {
                                 })()}
                                 </td>
                                 <td>{cat.CategoryDescription}</td>
-                                <td>Edit / Delete </td>
+                                <td>
+                                    <ButtonToolbar>
+                                        <Button className="mr-2" variant="info"
+                                        onClick={()=>this.setState({editModalShow:true, catid:cat.CategoryId, catname:cat.CategoryName,
+                                        active:cat.Active, catdesc: cat.CategoryDescription})}>
+                                            Edit Category
+                                        </Button>
+                                        <EditCatModal show={this.state.editModalShow}
+                                        onHide={editModalClose}
+                                        catid={catid}
+                                        catname={catname}
+                                        active={active}
+                                        catdesc={catdesc}
+                                        />
+                                    </ButtonToolbar>
+
+                                </td>
                             </tr>)}
                     </tbody>
                 </Table>
