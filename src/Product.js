@@ -11,6 +11,7 @@ export class Product extends Component {
     constructor(props){
         super(props);
         this.state={prods:[], addModalShow:false, editModalShow: false}
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     refreshList(){
@@ -23,46 +24,29 @@ export class Product extends Component {
     }
     handleSearch(event)
     {
-        //this.refreshList();
-        //event.preventDefault();
-        //fetch(process.env.REACT_APP_API+'product/Search/ac')
-        //.then(response=>response.json())
-        //.then(data=>{
-           // this.setState({prods:data.list});
-      //  });
 
+        if(this.searchbox.value !== "")
+        {
+            event.preventDefault();
+            fetch(process.env.REACT_APP_API+'product/Search/'+this.searchbox.value)
+            .then(response=>response.json())
+            .then(data=>{
+                this.setState({prods:data});
+           });
+        }
 
-        event.preventDefault();
-        //saving the value of the textbox to a variable/const
-        if(this.searchbox.value !== ""){ 
-            const searchResult = this.searchbox.value;
-            //update the state object
-            this.setState({
-                location: searchResult + " weather report"
-            });
-        }else{
-            alert("please ensure that field is not empty!");
-            return;
+        else{
+            this.refreshList();
         }
     }
     componentDidMount(){
-        if(this.searchbox.value == "")
-        {
-            this.refreshList();
-        }
-        else if(this.searchbox.value !== "")
-        {
-            fetch(process.env.REACT_APP_API+'product/Search/ac')
-        .then(response=>response.json())
-        .then(data=>{
-            this.setState({prods:data.list});
-        });
-        }
-    }
-
-    componentDidUpdate(){
+        
         this.refreshList();
     }
+
+    //componentDidUpdate(){
+        //this.refreshList();
+    //}
     deleteProd(prodid)
     {
         if(window.confirm('Are you sure?')){
