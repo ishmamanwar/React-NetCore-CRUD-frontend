@@ -8,12 +8,13 @@ export class AddProdModal extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount(){
-        fetch(process.env.REACT_APP_API+'category')
+        fetch(process.env.REACT_APP_API+'product/GetAllCategoryNames')
         .then(response=>response.json())
         .then(data=>{
             this.setState({cats:data});
         });
     }
+    
     handleSubmit(event){
         event.preventDefault();
         fetch(process.env.REACT_APP_API+'product', {
@@ -39,7 +40,9 @@ export class AddProdModal extends Component{
     }
 
     render() {
+        const {cats} = this.state;
         return (
+            
             <div className="container">
                 <Modal
                 {...this.props}
@@ -63,11 +66,9 @@ export class AddProdModal extends Component{
                                     </Form.Group>
                                     <Form.Group controlId="Category">
                                         <Form.Label>Category</Form.Label>
-                                        <Form.Control>
-                                            <Form.Control as="select">
-                                                {this.state.cats.map(cat=>
-                                                    <option key={cat.CategoryId}>{cat.CategoryName}</option>)}
-                                            </Form.Control>
+                                        <Form.Control as="select">
+                                            {cats.map(cat=>
+                                                <option key={cat.CategoryId}>{cat.CategoryName}</option>)}
                                         </Form.Control>
                                     </Form.Group>
                                     <Form.Group controlId="ProductDescription">
