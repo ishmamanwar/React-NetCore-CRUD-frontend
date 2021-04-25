@@ -70,7 +70,7 @@ export class Category extends Component {
                       name="SearchText"
                       ref={input => this.searchbox = input}
         type="text"
-        placeholder="Product Name"
+        placeholder="Category Name"
       />
                 <button type="submit" onClick={this.handleSearch}>Search</button>
                 <Table className="mt-4" striped bordered hover size="sm">
