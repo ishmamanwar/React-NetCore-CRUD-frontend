@@ -11,8 +11,27 @@ export class Category extends Component {
     constructor(props){
         super(props);
         this.state={cats:[], addModalShow:false, editModalShow: false}
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
+
+    handleSearch(event)
+    {
+
+        if(this.searchbox.value !== "")
+        {
+            event.preventDefault();
+            fetch(process.env.REACT_APP_API+'category/Search/'+this.searchbox.value)
+            .then(response=>response.json())
+            .then(data=>{
+                this.setState({cats:data});
+           });
+        }
+
+        else{
+            this.refreshList();
+        }
+    }
     refreshList(){
         fetch(process.env.REACT_APP_API+'category')
         
@@ -26,9 +45,9 @@ export class Category extends Component {
         this.refreshList();
     }
 
-    componentDidUpdate(){
-        this.refreshList();
-    }
+    //componentDidUpdate(){
+       // this.refreshList();
+    //}
     deleteCat(catid)
     {
         if(window.confirm('Are you sure?')){
@@ -46,6 +65,14 @@ export class Category extends Component {
         let editModalClose=()=>this.setState({editModalShow:false})
         return(
             <div>
+                <input
+                      className="mt-4"
+                      name="SearchText"
+                      ref={input => this.searchbox = input}
+        type="text"
+        placeholder="Product Name"
+      />
+                <button type="submit" onClick={this.handleSearch}>Search</button>
                 <Table className="mt-4" striped bordered hover size="sm">
                     <thead>
                         <tr>
