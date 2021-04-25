@@ -15,7 +15,6 @@ export class Product extends Component {
     }
 
     refreshList(){
-        //fetch(process.env.REACT_APP_API+'product/Search/s')
         fetch(process.env.REACT_APP_API+'product')
         .then(response=>response.json())
         .then(data=>{
@@ -44,9 +43,11 @@ export class Product extends Component {
         this.refreshList();
     }
 
-    //componentDidUpdate(){
-        //this.refreshList();
-    //}
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.prods === this.state.prods) {
+            this.refreshList();
+        }
+    }
     deleteProd(prodid)
     {
         if(window.confirm('Are you sure?')){
@@ -56,6 +57,7 @@ export class Product extends Component {
             'Content-Type':'application/json'}
             }
             )
+            this.refreshList();
         }
     }
     render(){

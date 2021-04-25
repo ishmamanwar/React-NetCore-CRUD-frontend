@@ -45,9 +45,11 @@ export class Category extends Component {
         this.refreshList();
     }
 
-    //componentDidUpdate(){
-       // this.refreshList();
-    //}
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.cats === this.state.cats) {
+            this.refreshList();
+        }
+    }
     deleteCat(catid)
     {
         if(window.confirm('Are you sure?')){
@@ -57,6 +59,7 @@ export class Category extends Component {
             'Content-Type':'application/json'}
             }
             )
+            this.refreshList();
         }
     }
     render(){
